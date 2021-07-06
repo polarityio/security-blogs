@@ -1,0 +1,84 @@
+<div class="mb-1">
+  <a class="p-action" {{on "click" (action "toggleFilter")}}>
+    {{fa-icon icon="filter" fixedWidth=true}} {{#if viewFilters}}Hide{{else}}View{{/if}} search options
+    {{#if viewFilters}}
+      {{fa-icon icon="chevron-up"}}
+    {{else}}
+      {{fa-icon icon="chevron-down"}}
+    {{/if}}
+  </a>
+</div>
+
+{{#if viewFilters}}
+<div class="search-filter mt-2">
+  <div class="mb-2">
+    <span class="filter-header">Sources to search</span>
+  </div>
+  <div class="filter-options d-flex flex-wrap">
+    {{#each searchFilters as |filter|}}
+      <div class="filter-item d-flex align-items-center mb-1">
+        <Input
+          @id={{concat filter.id block.id}}
+          @type="checkbox"
+          @checked={{filter.value}}
+        />
+        <label for="{{concat filter.id block.id}}">{{filter.displayValue}}</label>
+      </div>
+    {{/each}}
+  </div>
+  <div class="filter-control-bar d-flex align-items-center">
+    <a class="p-action mr-2" {{on "click" (action "selectAll")}}>Select all</a>
+    <a class="p-action" {{on "click" (action "clearAll")}}>Clear all</a>
+    <button class="btn btn-polarity filter-btn ml-auto"{{action "applyFilter"}}>
+      {{#if filtering}}
+        {{fa-icon icon="spinner-third" spin=true}}
+      {{else}}
+        Run Search
+      {{/if}}
+    </button>
+  </div>
+</div>
+{{/if}}
+{{#if infoMessage}}
+  <div class="alert alert-info mt-2">
+    {{fa-icon icon="info-circle" fixedWidth=true}}{{infoMessage}}
+  </div>
+{{/if}}
+{{#if errorMessage}}
+  <div class="alert alert-danger mt-2">
+    {{fa-icon icon="exclamation-triangle" fixedWidth=true}}{{errorMessage}}
+  </div>
+{{/if}}
+<div class="mt-2">
+  <span class="p-footnote">{{searchInformation.totalResults}} public posts found from {{numSourcesToSearch}} of {{searchFilters.length}} sources</span>
+</div>
+{{#each (limit searchResults.items viewLimit) as |result index|}}
+  <h1 class="p-title mt-3">
+    {{#if result.icon}}
+      <img src="{{get icons result.icon}}" class="favicon">
+    {{else}}
+      {{fa-icon icon="blog"}}
+    {{/if}}
+    Result #{{inc index}} from {{#if result.displayLink}}{{result.displayLink}}{{/if}}
+  </h1>
+
+  {{#if result.title}}
+    <div>
+      <a href="{{result.link}}" class="p-link">{{result.title}} {{fa-icon "external-link" class="external-icon"}}</a>
+    </div>
+  {{/if}}
+
+  {{#if result.snippet}}
+    <div>
+      <div class="p-block">{{result.snippet}}</div>
+    </div>
+  {{/if}}
+{{/each}}
+
+{{#if (and (eq viewLimit 10) (gt searchInformation.totalResults 10))}}
+  <div class="p-footnote mt-2">Results limited to first 10 hits found</div>
+{{else if (and (eq viewLimit 5)(gt searchResults.items.length 5))}}
+  <div class="mt-2">
+    <a class="p-action" {{on "click" (action "viewMore")}}>View more</a>
+  </div>
+{{/if}}
