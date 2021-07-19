@@ -12,6 +12,140 @@ let requestWithDefaults;
 
 const MAX_PARALLEL_LOOKUPS = 10;
 const SEARCH_ENGINE_ID = '2e5f92581998d0c05';
+const SOURCES = [
+  {
+    value: 'blogs.akamai.com',
+    display: 'akamai.com'
+  },
+  {
+    value: 'bleepingcomputer.com',
+    display: 'bleepingcomputer.com'
+  },
+  {
+    value: 'crowdstrike.com/blog/',
+    display: 'crowdstrike.com'
+  },
+  {
+    value: 'csoonline.com',
+    display: 'csoonline.com'
+  },
+  {
+    value: 'danielmiessler.com',
+    display: 'danielmiessler.com'
+  },
+  {
+    value: 'darkreading.com',
+    display: 'darkreading.com'
+  },
+  {
+    value: 'fireeye.com/*',
+    display: 'fireeye.com'
+  },
+  {
+    value: 'gbhackers.com',
+    display: 'gbhackers.com'
+  },
+  {
+    value: 'grahamcluley.com',
+    display: 'grahamcluley.com'
+  },
+  {
+    value: 'infosecurity-magazine.com',
+    display: 'infosecurity-magazine.com'
+  },
+  {
+    value: 'itsecurityguru.org',
+    display: 'itsecurityguru.org'
+  },
+  {
+    value: 'krebsonsecurity.com/*',
+    display: 'krebsonsecurity.com'
+  },
+  {
+    value: 'lastwatchdog.com',
+    display: 'lastwatchdog.com'
+  },
+  {
+    value: 'microsoft.com/security/blog/',
+    display: 'microsoft.com'
+  },
+  {
+    value: 'norfolkinfosec.com',
+    display: 'norfolkinfosec.com'
+  },
+  {
+    value: 'recordedfuture.com',
+    display: 'recordedfuture.com'
+  },
+  {
+    value: 'schneier.com',
+    display: 'schneier.com'
+  },
+  {
+    value: 'scmagazine.com',
+    display: 'scmagazine.com'
+  },
+  {
+    value: 'securityaffairs.co/wordpress/',
+    display: 'securityaffairs.co'
+  },
+  {
+    value: 'securityweek.com',
+    display: 'securityweek.com'
+  },
+  {
+    value: 'securityweekly.com',
+    display: 'securityweekly.com'
+  },
+  {
+    value: 'silobreaker.com',
+    display: 'silobreaker.com'
+  },
+  {
+    value: '*.sophos.com',
+    display: 'sophos.com'
+  },
+  {
+    value: 'blog.talosintelligence.com',
+    display: 'talosintelligence.com'
+  },
+  {
+    value: 'taosecurity.blogspot.com',
+    display: 'taosecurity.blogspot.com'
+  },
+  {
+    value: 'thehackernews.com',
+    display: 'thehackernews.com'
+  },
+  {
+    value: 'theregister.com',
+    display: 'theregister.com'
+  },
+  {
+    value: 'threatpost.com',
+    display: 'threatpost.com'
+  },
+  {
+    value: '*.trendmicro.com',
+    display: 'trendmicro.com'
+  },
+  {
+    value: 'tripwire.com/state-of-security/',
+    display: 'tripwire.com'
+  },
+  {
+    value: 'troyhunt.com',
+    display: 'troyhunt.com'
+  },
+  {
+    value: 'unit42.paloaltonetworks.com',
+    display: 'unit42.paloaltonetworks.com'
+  },
+  {
+    value: 'zdnet.com',
+    display: 'zdnet.com'
+  }
+];
 
 function startup(logger) {
   let defaults = {};
@@ -71,16 +205,14 @@ function _createQuery(entity, searchFilters, options) {
   //I went with ignore because GSE has a search string limit I was hitting
   //so I inverted to logic to have the default work more consistently
   searchFilters.forEach((filter) => {
-    if (filter.filterValue == null) {
-      query += ` -site:${filter} AND `;
-    }
-    else if (filter.value === false){
-      query += ` -site:${filter.filterValue} AND `;
+    if (filter.value === undefined || filter.value) {
+      query += ` site:${filter.filterValue || filter.value} OR`;
     }
   });
-  //Remove trailing AND
-  query = query.replace(/ AND $/,"");
+  //Remove trailing OR
+  query = query.replace(/ OR$/, '');
 
+  
   return query;
 }
 
@@ -97,7 +229,7 @@ function _searchEntity(entity, searchFilters, options, cb) {
     },
     json: true
   };
-
+  
   Logger.trace({ requestOptions }, 'Request Options');
 
   requestWithDefaults(requestOptions, function (error, res, body) {
@@ -113,7 +245,7 @@ function _searchEntity(entity, searchFilters, options, cb) {
   });
 }
 
-function _formatDetails(body) {
+function _formatDetails(body, options) {
   // The return result contains a lot additional information we don't use, pluck out just the fields
   // we display in the template to reduce the amount of cached data and the size of the return payload
   const items = body.items.map((item) => {
@@ -126,20 +258,24 @@ function _formatDetails(body) {
       snippet: item.snippet
     };
   });
-
+  const ignoredSources = options.sources.map((type) => type.value);
+  const selectedSources = SOURCES.filter((source) => !ignoredSources.includes(source.value));
   return {
     icons: icons.icons,
     searchResults: {
       searchInformation: body.searchInformation,
       items
-    }
+    },
+    sources: SOURCES,
+    selectedSources
   };
 }
 
 function doLookup(entities, options, cb) {
   let lookupResults = [];
   let tasks = [];
-  const SEARCH_FILTER = options.sources.map((type) => type.value);
+  const ignoredSources = options.sources.map((type) => type.value);
+  const SEARCH_FILTER = SOURCES.filter((source) => !ignoredSources.includes(source.value));
   //const NO_SEARCH_FILTER = [];
 
   Logger.debug({ entities, options }, 'doLookup');
@@ -170,7 +306,7 @@ function doLookup(entities, options, cb) {
             }`,
           data: {
             summary: [`${result.body.searchInformation.totalResults} posts`],
-            details: _formatDetails(result.body)
+            details: _formatDetails(result.body, options)
           }
         });
       }
@@ -265,7 +401,7 @@ function onMessage(payload, options, cb) {
           items: []
         });
       } else {
-        const details = _formatDetails(result.body);
+        const details = _formatDetails(result.body, options);
         Logger.trace({ details }, 'onMessage');
         cb(null, details.searchResults);
       }
