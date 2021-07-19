@@ -1,5 +1,4 @@
 module.exports = {
-  logging: { level: 'info' },
   /**
    * Name of the integration which is displayed in the Polarity integrations user interface
    *
@@ -104,9 +103,7 @@ module.exports = {
       key: 'sources',
       name: 'Sources to IGNORE',
       description: 'Choose sources to attempt to filter from your results',
-      default: [
-        
-      ],
+      default: [],
       type: 'select',
       options: [
         {
