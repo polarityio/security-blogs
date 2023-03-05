@@ -15,7 +15,6 @@ polarity.export = PolarityComponent.extend({
   searchFilters: Ember.computed.alias('block.storage.searchFilters'),
   numSourcesToSearch: Ember.computed.alias('block.storage.numSourcesToSearch'),
   init: function () {
-    console.log(this.get('details'))
     const sources = this.get('details.sources');
     const selectedSources = this.get('details.selectedSources');
     if (!this.get('block.storage.searchFilters')) {
@@ -33,9 +32,25 @@ polarity.export = PolarityComponent.extend({
       this.set('block.storage.numSourcesToSearch', this.get('block.storage.searchFilters.length'));
     }
 
+    let array = new Uint32Array(5);
+    this.set('uniqueIdPrefix', window.crypto.getRandomValues(array).join(''));
+
     this._super(...arguments);
   },
   actions: {
+    copyData: function () {
+      const savedViewLimit = this.get('viewLimit');
+      this.setMaxViewLimit();
+
+      Ember.run.scheduleOnce(
+          'afterRender',
+          this,
+          this.copyElementToClipboard,
+          `security-blogs-container-${this.get('uniqueIdPrefix')}`
+      );
+
+      Ember.run.scheduleOnce('destroy', this, this.restoreCopyState, savedViewLimit);
+    },
     toggleFilter: function () {
       this.toggleProperty('viewFilters');
     },
@@ -86,8 +101,11 @@ polarity.export = PolarityComponent.extend({
       }
     },
     viewMore: function () {
-      this.set('viewLimit', 10);
+      this.setMaxViewLimit();
     }
+  },
+  setMaxViewLimit(){
+    this.set('viewLimit', this.get('maxViewLimit'));
   },
   getNumSourcesSearched() {
     let numSourcesToSearch = 0;
@@ -97,5 +115,33 @@ polarity.export = PolarityComponent.extend({
       }
     }
     return numSourcesToSearch;
+  },
+  copyElementToClipboard(element) {
+    let images = document.getElementById(element).getElementsByTagName('img');
+    for (let i = 0; i < images.length; i++) {
+      images[i].style.display = 'none';
+    }
+
+    window.getSelection().removeAllRanges();
+    let range = document.createRange();
+
+    range.selectNode(typeof element === 'string' ? document.getElementById(element) : element);
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+
+    for (let i = 0; i < images.length; i++) {
+      images[i].style.display = 'block';
+    }
+  },
+  restoreCopyState(savedViewLimit) {
+    this.set('viewLimit', savedViewLimit);
+    this.set('showCopyMessage', true);
+
+    setTimeout(() => {
+      if (!this.isDestroyed) {
+        this.set('showCopyMessage', false);
+      }
+    }, 2000);
   }
 });
