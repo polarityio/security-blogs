@@ -23,7 +23,7 @@ module.exports = {
    * @optional
    */
   description: 'Searches popular security blog and news sites and links to relevant results',
-  entityTypes: ['hash', 'IP', 'domain', 'cve', 'email'],
+  entityTypes: ['MD5', 'SHA1', 'SHA256', 'IPv4', 'IPv6', 'domain', 'cve', 'email'],
   customTypes: [
     {
       key: 'allText',
