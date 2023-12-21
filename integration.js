@@ -50,6 +50,10 @@ const SOURCES = [
     display: 'grahamcluley.com'
   },
   {
+    value: 'horizon3.ai/blog/',
+    display: 'horizon3.ai'
+  },
+  {
     value: 'infosecurity-magazine.com',
     display: 'infosecurity-magazine.com'
   },
@@ -112,6 +116,10 @@ const SOURCES = [
   {
     value: 'taosecurity.blogspot.com',
     display: 'taosecurity.blogspot.com'
+  },
+  {
+    value: 'tenable.com/blog',
+    display: 'tenable.com'
   },
   {
     value: 'thehackernews.com',
@@ -182,24 +190,21 @@ function startup(logger) {
 
 function _createQuery(entity, searchFilters, options) {
   entity.value = entity.value.trim();
-  let query ="";
-  if (entity.isIPv4){
+  let query = '';
+  if (entity.isIPv4) {
     //defang IP because that is how it is searchable on CISA website
-    query = `${entity.value} OR "${entity.value.replace(new RegExp(/(\.)\d+$/),'[.]')}"`;
-  }
-  /*else if (entity.isEmail){
+    query = `${entity.value} OR "${entity.value.replace(new RegExp(/(\.)\d+$/), '[.]')}"`;
+  } else {
+    /*else if (entity.isEmail){
     //defang IP because that is how it is searchable on CISA website
     query = `"${entity.value.replace('@','[@]')}"`;
   }*/
-  else
-  {
-    if (options.fuzzymatch){
+    if (options.fuzzymatch) {
       //replace = sign because google will treat this as its own entity
-      query = `${entity.value.replace('=',' ').trim()}`;
-    }
-    else{
+      query = `${entity.value.replace('=', ' ').trim()}`;
+    } else {
       //replace = sign because google will treat this as its own entity
-      query = `"${entity.value.replace('=',' ').trim()}"`;
+      query = `"${entity.value.replace('=', ' ').trim()}"`;
     }
   }
   //I went with ignore because GSE has a search string limit I was hitting
@@ -212,7 +217,6 @@ function _createQuery(entity, searchFilters, options) {
   //Remove trailing OR
   query = query.replace(/ OR$/, '');
 
-  
   return query;
 }
 
@@ -229,7 +233,7 @@ function _searchEntity(entity, searchFilters, options, cb) {
     },
     json: true
   };
-  
+
   Logger.trace({ requestOptions }, 'Request Options');
 
   requestWithDefaults(requestOptions, function (error, res, body) {
@@ -301,9 +305,7 @@ function doLookup(entities, options, cb) {
       } else {
         lookupResults.push({
           entity: result.entity,
-          displayValue: `${result.entity.value.slice(0, 120)}${
-              result.entity.value.length > 120 ? '...' : ''
-            }`,
+          displayValue: `${result.entity.value.slice(0, 120)}${result.entity.value.length > 120 ? '...' : ''}`,
           data: {
             summary: [`${result.body.searchInformation.totalResults} posts`],
             details: _formatDetails(result.body, options)

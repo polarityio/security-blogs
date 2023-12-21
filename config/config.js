@@ -22,10 +22,9 @@ module.exports = {
    * @type String
    * @optional
    */
-  description:
-    "Searches popular security blog and news sites and links to relevant results",
-    entityTypes: ['hash','ip','domain','cve','email'],
-    customTypes:[
+  description: 'Searches popular security blog and news sites and links to relevant results',
+  entityTypes: ['MD5', 'SHA1', 'SHA256', 'IPv4', 'IPv6', 'domain', 'cve', 'email'],
+  customTypes: [
     {
       key: 'allText',
       regex: /^[\s\S]{2,2048}$/
@@ -64,7 +63,7 @@ module.exports = {
     ca: '',
     // An HTTP proxy to be used. Supports proxy Auth with Basic Auth, identical to support for
     // the url parameter (by embedding the auth info in the uri)
-    proxy: ""
+    proxy: ''
   },
   logging: {
     level: 'info' //trace, debug, info, warn, error, fatal
@@ -89,9 +88,8 @@ module.exports = {
     },
     {
       key: 'fuzzymatch',
-      name: "Fuzzy Match",
-      description:
-        "When checked, finds results that are not an exact match." ,
+      name: 'Fuzzy Match',
+      description: 'When checked, finds results that are not an exact match.',
       default: false,
       type: 'boolean',
       userCanEdit: true,
@@ -139,6 +137,10 @@ module.exports = {
         {
           value: 'grahamcluley.com',
           display: 'grahamcluley.com'
+        },
+        {
+          value: 'horizon3.ai/blog/',
+          display: 'horizon3.ai'
         },
         {
           value: 'infosecurity-magazine.com',
@@ -203,6 +205,10 @@ module.exports = {
         {
           value: 'taosecurity.blogspot.com',
           display: 'taosecurity.blogspot.com'
+        },
+        {
+          value: 'tenable.com/blog',
+          display: 'tenable.com'
         },
         {
           value: 'thehackernews.com',
