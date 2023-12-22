@@ -29,7 +29,7 @@ polarity.export = PolarityComponent.extend({
             value: isSourceActive(source.value, selectedSources)
           }))
       );
-      this.set('block.storage.numSourcesToSearch', this.get('block.storage.searchFilters.length'));
+      this.set('block.storage.numSourcesToSearch', this.getNumSourcesSearched());
     }
 
     let array = new Uint32Array(5);
