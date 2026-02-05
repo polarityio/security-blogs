@@ -1,0 +1,33 @@
+{
+  "root": {
+    "path": "",
+    "on_null": "return_empty"
+  },
+  "pipeline": [
+    {
+      "op": "copy",
+      "from": "searchResults",
+      "to": "reduced_results.searchResults"
+    },
+    {
+      "op": "copy",
+      "from": "reduced_results.searchResults.searchInformation.totalResults",
+      "to": "reduced_results.searchResults.totalResults"
+    },
+    {
+      "op": "drop",
+      "paths": [
+        "reduced_results.searchResults.searchInformation",
+        "reduced_results.searchResults.items[].displayLink"
+      ]
+    },
+    {
+      "op": "prune",
+      "strategy": "empty_values",
+      "target": "reduced_results"
+    }
+  ],
+  "output": {
+    "result": "$working.reduced_results"
+  }
+}

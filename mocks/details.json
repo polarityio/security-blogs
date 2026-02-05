@@ -1,0 +1,123 @@
+{
+  "icons": {
+    "bleepingcomputer.com": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA...",
+    "krebsonsecurity.com": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA...",
+    "thehackernews.com": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA..."
+  },
+  "sources": [
+    {
+      "value": "bleepingcomputer.com",
+      "display": "bleepingcomputer.com"
+    },
+    {
+      "value": "krebsonsecurity.com/*",
+      "display": "krebsonsecurity.com"
+    },
+    {
+      "value": "thehackernews.com",
+      "display": "thehackernews.com"
+    },
+    {
+      "value": "crowdstrike.com/blog/",
+      "display": "crowdstrike.com"
+    },
+    {
+      "value": "darkreading.com",
+      "display": "darkreading.com"
+    }
+  ],
+  "selectedSources": [
+    {
+      "value": "bleepingcomputer.com",
+      "display": "bleepingcomputer.com"
+    },
+    {
+      "value": "krebsonsecurity.com/*",
+      "display": "krebsonsecurity.com"
+    },
+    {
+      "value": "thehackernews.com",
+      "display": "thehackernews.com"
+    }
+  ],
+  "searchResults": {
+    "searchInformation": {
+      "searchTime": 0.284516,
+      "formattedSearchTime": "0.28",
+      "totalResults": "847",
+      "formattedTotalResults": "847"
+    },
+    "items": [
+      {
+        "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA...",
+        "displayLink": "www.bleepingcomputer.com",
+        "title": "Critical Zero-Day Vulnerability Found in Log4j Library - BleepingComputer",
+        "link": "https://www.bleepingcomputer.com/news/security/critical-log4j-vulnerability-log4shell/",
+        "snippet": "Security researchers have discovered a critical zero-day vulnerability in the widely-used Apache Log4j Java logging library that allows remote code execution..."
+      },
+      {
+        "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA...",
+        "displayLink": "krebsonsecurity.com",
+        "title": "Log4Shell: The Latest Internet-Wide Security Disaster",
+        "link": "https://krebsonsecurity.com/2021/12/log4shell-latest-internet-security-disaster/",
+        "snippet": "A critical vulnerability in a widely-used Java library known as Log4j is being actively exploited by malicious actors to compromise systems worldwide..."
+      },
+      {
+        "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA...",
+        "displayLink": "thehackernews.com",
+        "title": "Apache Log4j Vulnerability: What You Need to Know About Log4Shell",
+        "link": "https://thehackernews.com/2021/12/apache-log4j-vulnerability-log4shell.html",
+        "snippet": "Cybersecurity agencies worldwide are warning about a critical vulnerability affecting the Apache Log4j logging library, tracked as CVE-2021-44228 or Log4Shell..."
+      },
+      {
+        "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA...",
+        "displayLink": "www.bleepingcomputer.com",
+        "title": "Log4Shell Exploits Target VMware Horizon Servers",
+        "link": "https://www.bleepingcomputer.com/news/security/log4shell-exploits-vmware-horizon/",
+        "snippet": "Threat actors are actively exploiting the Log4Shell vulnerability to target VMware Horizon servers, attempting to install web shells and backdoors..."
+      },
+      {
+        "icon": "",
+        "displayLink": "www.darkreading.com",
+        "title": "Log4Shell: Understanding the Apache Log4j Zero-Day Threat",
+        "link": "https://www.darkreading.com/application-security/log4shell-apache-log4j-zero-day",
+        "snippet": "The Log4Shell vulnerability represents one of the most critical security flaws discovered in recent years, affecting millions of applications and services..."
+      },
+      {
+        "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA...",
+        "displayLink": "krebsonsecurity.com",
+        "title": "Researchers Find New Log4j Attack Vectors",
+        "link": "https://krebsonsecurity.com/2021/12/new-log4j-attack-vectors-discovered/",
+        "snippet": "Security researchers continue to discover new ways that attackers can exploit the Log4Shell vulnerability, including obfuscation techniques that bypass..."
+      },
+      {
+        "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA...",
+        "displayLink": "thehackernews.com",
+        "title": "CISA Issues Emergency Directive on Log4j Vulnerability",
+        "link": "https://thehackernews.com/2021/12/cisa-emergency-directive-log4j.html",
+        "snippet": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) has issued an emergency directive requiring federal agencies to patch or mitigate the Log4Shell..."
+      },
+      {
+        "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA...",
+        "displayLink": "www.bleepingcomputer.com",
+        "title": "Ransomware Gangs Exploiting Log4Shell in Attack Campaigns",
+        "link": "https://www.bleepingcomputer.com/news/security/ransomware-log4shell-attacks/",
+        "snippet": "Multiple ransomware operations are now exploiting the Log4Shell vulnerability to gain initial access to corporate networks, deploy ransomware..."
+      },
+      {
+        "icon": "",
+        "displayLink": "www.crowdstrike.com",
+        "title": "CrowdStrike Falcon Protects Against Log4Shell Exploitation",
+        "link": "https://www.crowdstrike.com/blog/log4shell-vulnerability-protection/",
+        "snippet": "CrowdStrike's Falcon platform provides comprehensive protection against Log4Shell exploitation attempts through behavioral detection and prevention..."
+      },
+      {
+        "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA...",
+        "displayLink": "krebsonsecurity.com",
+        "title": "The Long Road to Patching Log4Shell Vulnerability",
+        "link": "https://krebsonsecurity.com/2022/01/patching-log4shell-long-road/",
+        "snippet": "Organizations worldwide continue to struggle with identifying and patching all instances of the vulnerable Log4j library in their environments..."
+      }
+    ]
+  }
+}

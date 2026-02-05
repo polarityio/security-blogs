@@ -3,7 +3,16 @@
   "name": "Security Blogs",
   "acronym": "BLOG",
   "description": "Searches popular security blog and news sites and links to relevant results",
-  "entityTypes": ["MD5", "SHA1", "SHA256", "IPv4", "IPv6", "domain", "cve", "email"],
+  "entityTypes": [
+    "MD5",
+    "SHA1",
+    "SHA256",
+    "IPv4",
+    "IPv6",
+    "domain",
+    "cve",
+    "email"
+  ],
   "customTypes": [
     {
       "key": "allText",
@@ -11,7 +20,9 @@
     }
   ],
   "defaultColor": "light-gray",
-  "styles": ["./styles/style.less"],
+  "styles": [
+    "./styles/style.less"
+  ],
   "block": {
     "component": {
       "file": "./components/block.js"
@@ -165,7 +176,6 @@
           "value": "tenable.com/blog",
           "display": "tenable.com"
         },
-
         {
           "value": "thehackernews.com",
           "display": "thehackernews.com"
@@ -203,5 +213,10 @@
       "userCanEdit": true,
       "adminOnly": false
     }
-  ]
+  ],
+  "reducer": {
+    "details": {
+      "file": "./reducers/details.json"
+    }
+  }
 }
